@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -332,7 +332,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
@@ -524,6 +524,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &629343970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 629343971}
+  m_Layer: 0
+  m_Name: PipePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &629343971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629343970}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799151398
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,7 +566,7 @@ GameObject:
   - component: {fileID: 799151399}
   - component: {fileID: 799151400}
   m_Layer: 0
-  m_Name: PipePool
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -554,7 +585,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &799151400
 MonoBehaviour:
@@ -565,10 +596,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 799151398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ad1d6035612a3144ac8b0dda35e5ed9, type: 3}
+  m_Script: {fileID: 11500000, guid: ac665bbd8a1476440b790e0b3dfb2b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PipePool: {fileID: 0}
+  PipePoolParent: {fileID: 629343971}
+  PipePrefab: {fileID: 4825060690724031270, guid: af9c4211a4c407347ae9f0c39921a65d,
+    type: 3}
+  spawnInterval: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,7 +650,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1228051218
 GameObject:
@@ -836,10 +870,15 @@ PrefabInstance:
       propertyPath: m_DrawMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913712837555507888, guid: 3249982beaec53c41bfc0d8a5783e7a8,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2913712837555507889, guid: 3249982beaec53c41bfc0d8a5783e7a8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2913712837555507889, guid: 3249982beaec53c41bfc0d8a5783e7a8,
         type: 3}
@@ -998,7 +1037,7 @@ Transform:
   - {fileID: 3258327318922763919}
   - {fileID: 446153554}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3258327318520964697
 Camera:
@@ -1083,11 +1122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a87b5b0c6b4d3248a157e0d9958dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Poolings: 
-  pipeContainer: {fileID: 0}
-  topPipePrefab: {fileID: 0}
-  bottomPipePrefab: {fileID: 0}
-  currentTime: 0
 --- !u!4 &3258327318922763919
 Transform:
   m_ObjectHideFlags: 0
