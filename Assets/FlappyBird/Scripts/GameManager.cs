@@ -7,14 +7,20 @@ public class GameManager : MonoBehaviour
     public Transform PipePoolParent;
     public GameObject PipePrefab;
     public float spawnInterval;
+    public Bird bird;
+    public float jumpForce;
     private Vector3 spawnPoint = new Vector3(10, 0, 0);
     private int poolSize = 10;
     private Queue<GameObject> pool = new();
+    private Queue<Pipe> pipes = new();
 
     private void Awake()
     {
         InitializePool();
+        SpawnInitialPipes();
         StartCoroutine(SpawnPipes());
+
+        bird.OnTrigger.AddListener(() => GameOver());
     }
 
     private void InitializePool()
@@ -26,6 +32,24 @@ public class GameManager : MonoBehaviour
             pool.Enqueue(pipeObject);
             var pipeScript = pipeObject.GetComponent<Pipe>();
             pipeScript.OnBecameInvisible.AddListener(() => ReleasePipe(pipeObject));
+        }
+    }
+
+    private void SpawnInitialPipes()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            var pipe = GetPipe();
+            pipe.transform.position = spawnPoint + Vector3.left * 15 * i;
+            pipe.SetActive(true);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            bird.SetVelocityY(-jumpForce);
         }
     }
 
@@ -52,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         pipeObject.SetActive(false);
         pool.Enqueue(pipeObject);
+        pipes.Dequeue();
     }
 
     IEnumerator SpawnPipes()
@@ -66,6 +91,20 @@ public class GameManager : MonoBehaviour
     void SpawnPipe()
     {
         var pipe = GetPipe();
+        pipes.Enqueue(pipe.GetComponent<Pipe>());
         pipe.transform.position = spawnPoint;
+    }
+
+    private void GameOver()
+    {
+        bird.enabled = false;
+
+        while(pipes.Count > 0)
+        {
+            var pipe = pipes.Peek();
+            pipe.enabled = false;
+        }
+
+        StopAllCoroutines();
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 273886100113226643}
   - component: {fileID: 273886100113226640}
-  - component: {fileID: 273886100113226642}
+  - component: {fileID: 4715899258332570482}
   m_Layer: 0
   m_Name: TopPipe
   m_TagString: Untagged
@@ -79,13 +79,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 6.8, y: 15.2}
+  m_Size: {x: 7, y: 15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &273886100113226642
+--- !u!61 &4715899258332570482
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,16 +98,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 7.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 2.8899999}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 6.8, y: 7.6}
-    newSize: {x: 6.8, y: 15.2}
+    newSize: {x: 7, y: 15}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.8, y: 15.2}
+  m_Size: {x: 7, y: 15}
   m_EdgeRadius: 0
