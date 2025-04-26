@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,10 +11,16 @@ public class GameManager : MonoBehaviour
     public float spawnInterval;
     public Bird bird;
     public float jumpForce;
+    public TextMeshProUGUI CurrentScoreText;
+    public GameObject GameOverUI;
+    public TextMeshProUGUI FinalScoreText;
+    public Button ButtonOK;
+    public Button ButtonRetry;
     private Vector3 spawnPoint = new Vector3(10, 0, 0);
     private int poolSize = 10;
     private Queue<GameObject> pool = new();
-    private Queue<Pipe> pipes = new();
+    private List<Pipe> activePipes = new();
+    private int score = 0;
 
     private void Awake()
     {
@@ -21,6 +29,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnPipes());
 
         bird.OnTrigger.AddListener(() => GameOver());
+        ButtonOK.onClick.AddListener(() => Debug.Log("OK"));
+        ButtonRetry.onClick.AddListener(() => Debug.Log("Retry"));
     }
 
     private void InitializePool()
@@ -32,6 +42,10 @@ public class GameManager : MonoBehaviour
             pool.Enqueue(pipeObject);
             var pipeScript = pipeObject.GetComponent<Pipe>();
             pipeScript.OnBecameInvisible.AddListener(() => ReleasePipe(pipeObject));
+            pipeScript.OnPointScored.AddListener(() => {
+                score++;
+                UpdateUI();
+            });
         }
     }
 
@@ -61,6 +75,7 @@ public class GameManager : MonoBehaviour
             pipeObject.SetActive(true);
             var pipeScript = pipeObject.GetComponent<Pipe>();
             pipeScript.ResetPipe();
+            activePipes.Add(pipeScript);
             return pipeObject;
         }
         else
@@ -68,6 +83,11 @@ public class GameManager : MonoBehaviour
             var pipeObject = Instantiate(PipePrefab, PipePoolParent);
             var pipeScript = pipeObject.GetComponent<Pipe>();
             pipeScript.OnBecameInvisible.AddListener(() => ReleasePipe(pipeObject));
+            pipeScript.OnPointScored.AddListener(() => {
+                score++;
+                UpdateUI();
+            });
+            activePipes.Add(pipeScript);
             return pipeObject;
         }
     }
@@ -76,7 +96,22 @@ public class GameManager : MonoBehaviour
     {
         pipeObject.SetActive(false);
         pool.Enqueue(pipeObject);
-        pipes.Dequeue();
+
+        Pipe pipeToRemove = null;
+
+        foreach(var pipe in activePipes)
+        {
+            if (pipe.gameObject == pipeObject)
+            {
+                pipeToRemove = pipe;
+                break;
+            }
+        }
+        
+        if (pipeToRemove != null)
+        {
+            activePipes.Remove(pipeToRemove);
+        }
     }
 
     IEnumerator SpawnPipes()
@@ -88,23 +123,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SpawnPipe()
+    private void SpawnPipe()
     {
         var pipe = GetPipe();
-        pipes.Enqueue(pipe.GetComponent<Pipe>());
         pipe.transform.position = spawnPoint;
+    }
+
+    private void UpdateUI()
+    {
+        CurrentScoreText.text = score.ToString();
     }
 
     private void GameOver()
     {
         bird.enabled = false;
+        bird.PlayHitAnimation();
 
-        while(pipes.Count > 0)
+        foreach(var pipe in activePipes)
         {
-            var pipe = pipes.Peek();
             pipe.enabled = false;
         }
 
         StopAllCoroutines();
+
+        CurrentScoreText.gameObject.SetActive(false);
+        GameOverUI.SetActive(true);
+        FinalScoreText.text = CurrentScoreText.text;
     }
 }

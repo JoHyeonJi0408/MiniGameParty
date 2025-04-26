@@ -7,6 +7,7 @@ public class Bird : MonoBehaviour
 {
     public UnityEvent OnTrigger;
     public float gravityScale = 2f;
+    public Animator animator;
     private float velocityY = 0f;
 
     private void Update()
@@ -25,5 +26,10 @@ public class Bird : MonoBehaviour
     public void SetVelocityY(float newVelocityY)
     {
         velocityY = newVelocityY;
+    }
+
+    public void PlayHitAnimation()
+    {
+        animator.SetTrigger("Hit");
     }
 }

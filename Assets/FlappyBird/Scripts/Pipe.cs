@@ -6,15 +6,23 @@ using UnityEngine.Events;
 public class Pipe : MonoBehaviour
 {
     public UnityEvent OnBecameInvisible;
+    public UnityEvent OnPointScored;
     public SpriteRenderer topRenderer;
     public SpriteRenderer bottomRenderer;
     public BoxCollider2D topCollider;
     public BoxCollider2D bottomCollider;
     private float moveSpeed = 10f;
+    private bool isPointed;
 
     private void Update()
     {
         transform.Translate(moveSpeed * Time.deltaTime * Vector3.left);
+
+        if (transform.position.x < -33.2f && !isPointed)
+        {
+            OnPointScored?.Invoke();
+            isPointed = true;
+        }
 
         if (transform.position.x < -40f)
         {
@@ -39,5 +47,6 @@ public class Pipe : MonoBehaviour
         bottomCollider.size = new Vector2(7, bottomY);
         topCollider.offset = new Vector2(0, -topY / 2);
         bottomCollider.offset = new Vector2(0, bottomY / 2);
+        isPointed = false;
     }
 }

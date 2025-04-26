@@ -121,7 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72bb8e1b132d32148842bb34c9e57c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   gravityScale: 3
+  animator: {fileID: 2913712837555507891}
 --- !u!58 &227410039243886467
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -132,7 +136,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
