@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class Bird : MonoBehaviour
 {
-    public UnityEvent OnTrigger;
-    public float gravityScale = 2f;
+    [HideInInspector] public UnityEvent OnTrigger;
     public Animator animator;
+    private float gravityScale = 2f;
     private float velocityY = 0f;
 
     private void Update()
@@ -28,8 +28,14 @@ public class Bird : MonoBehaviour
         velocityY = newVelocityY;
     }
 
-    public void PlayHitAnimation()
+    public void PlayAnimation(string trigger)
     {
-        animator.SetTrigger("Hit");
+        animator.SetTrigger(trigger);
+    }
+
+    public void Reset()
+    {
+        PlayAnimation("Fly");
+        transform.position = new Vector3(-15, 0, 0);
     }
 }

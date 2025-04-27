@@ -6,21 +6,25 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("게임오브젝트 초기 설정")]
     public Transform PipePoolParent;
     public GameObject PipePrefab;
-    public float spawnInterval;
     public Bird bird;
-    public float jumpForce;
-    public TextMeshProUGUI CurrentScoreText;
+    
+    [Header("UI 설정")]
     public GameObject GameOverUI;
+    public TextMeshProUGUI CurrentScoreText;
     public TextMeshProUGUI FinalScoreText;
     public Button ButtonOK;
     public Button ButtonRetry;
-    private Vector3 spawnPoint = new Vector3(10, 0, 0);
+
     private int poolSize = 10;
+    private int score = 0;
+    private float spawnInterval = 1.5f;
+    private float jumpForce = 12;
+    private Vector3 spawnPoint = new(10, 0, 0);
     private Queue<GameObject> pool = new();
     private List<Pipe> activePipes = new();
-    private int score = 0;
 
     private void Awake()
     {
@@ -30,7 +34,7 @@ public class GameManager : MonoBehaviour
 
         bird.OnTrigger.AddListener(() => GameOver());
         ButtonOK.onClick.AddListener(() => Debug.Log("OK"));
-        ButtonRetry.onClick.AddListener(() => Debug.Log("Retry"));
+        ButtonRetry.onClick.AddListener(() => Retry());
     }
 
     private void InitializePool()
@@ -137,7 +141,7 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         bird.enabled = false;
-        bird.PlayHitAnimation();
+        bird.PlayAnimation("Hit");
 
         foreach(var pipe in activePipes)
         {
@@ -149,5 +153,30 @@ public class GameManager : MonoBehaviour
         CurrentScoreText.gameObject.SetActive(false);
         GameOverUI.SetActive(true);
         FinalScoreText.text = CurrentScoreText.text;
+    }
+
+    private void Retry()
+    {
+        score = 0;
+        CurrentScoreText.text = "0";
+        CurrentScoreText.gameObject.SetActive(true);
+        GameOverUI.SetActive(false);
+
+        bird.enabled = true;
+        bird.Reset();
+
+        List<Pipe> pipesToRelease = new List<Pipe>(activePipes);
+
+        foreach (var pipe in pipesToRelease)
+        {
+            pipe.enabled = true;
+            ReleasePipe(pipe.gameObject);
+        }
+
+        activePipes.Clear();
+
+        InitializePool();
+        SpawnInitialPipes();
+        StartCoroutine(SpawnPipes());
     }
 }
