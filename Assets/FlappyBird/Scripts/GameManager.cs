@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.anyKeyDown)
         {
             bird.SetVelocityY(-jumpForce);
         }
