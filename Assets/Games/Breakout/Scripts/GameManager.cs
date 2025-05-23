@@ -155,7 +155,10 @@ namespace Breakout
 
             for (int i = 0; i < activeBricks.Count; i++)
             {
-                activeBricks[i].transform.position = targetPositions[i];
+                if(activeBricks[i] != null)
+                {
+                    activeBricks[i].transform.position = targetPositions[i];
+                }
             }
         }
 

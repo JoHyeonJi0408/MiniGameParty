@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99b7668b08b57b4586656cf3e07505d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 10
   rb: {fileID: 55618585}
   OnPointScored:
     m_PersistentCalls:
