@@ -26,9 +26,8 @@ public class BallController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Brick"))
         {
-            collision.gameObject.SetActive(false);
             OnPointScored.Invoke();
-
+            Destroy(collision.gameObject);
             direction = Vector2.Reflect(lastVelocity.normalized, rb.velocity.normalized);
         }
         else if (collision.gameObject.CompareTag("Paddle"))

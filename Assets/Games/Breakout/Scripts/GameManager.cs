@@ -120,6 +120,8 @@ namespace Breakout
 
         IEnumerator SpawnNewBlockWave()
         {
+            InitializeBricks(initialSpawnY);
+
             List<Vector3> startPositions = new();
             List<Vector3> targetPositions = new();
 
@@ -141,7 +143,10 @@ namespace Breakout
             {
                 for (int i = 0; i < activeBricks.Count; i++)
                 {
-                    activeBricks[i].transform.position = Vector3.Lerp(startPositions[i], targetPositions[i], elapsed / duration);
+                    if (activeBricks[i] != null)
+                    {
+                        activeBricks[i].transform.position = Vector3.Lerp(startPositions[i], targetPositions[i], elapsed / duration);
+                    }
                 }
 
                 elapsed += Time.deltaTime;
