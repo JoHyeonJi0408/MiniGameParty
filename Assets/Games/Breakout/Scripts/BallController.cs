@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallController : MonoBehaviour
 {
     public float speed;
     public Rigidbody2D rb;
 
+    [HideInInspector] public UnityEvent OnPointScored;
+
     private void Start()
     {
-        rb.velocity = Vector2.up.normalized * speed;
+        rb.velocity = new Vector2(0.5f, 1).normalized * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,6 +27,7 @@ public class BallController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Brick"))
         {
             collision.gameObject.SetActive(false);
+            OnPointScored.Invoke();
 
             direction = Vector2.Reflect(lastVelocity.normalized, rb.velocity.normalized);
         }
