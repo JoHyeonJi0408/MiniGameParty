@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3568408203386913838}
   - component: {fileID: 3568408203386913808}
   - component: {fileID: 3568408203386913839}
-  - component: {fileID: -687327675221301847}
+  - component: {fileID: 1012619664203979968}
   m_Layer: 0
   m_Name: Brick_Safetynet
   m_TagString: Brick
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.6, y: 1.6}
   m_EdgeRadius: 0
---- !u!114 &-687327675221301847
+--- !u!114 &1012619664203979968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,11 +122,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3568408203386913837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4d94018a5410f428797c9ded8711c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4007f4cb09e6aaf4aab45cf5fcab5aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainSprite: {fileID: 3568408203386913808}
   subSprite: {fileID: 1124374752286204014}
+  Item: {fileID: 5107539322523663382, guid: 2769c12054731334cbf1352074d03812, type: 3}
 --- !u!1 &5602085060828461470
 GameObject:
   m_ObjectHideFlags: 0
