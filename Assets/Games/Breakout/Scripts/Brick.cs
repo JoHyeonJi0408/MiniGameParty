@@ -7,7 +7,7 @@ public class Brick : MonoBehaviour
     public SpriteRenderer mainSprite;
     public SpriteRenderer subSprite;
 
-    public void SetColors(Color32 mainColor, Color32 subColor)
+    public virtual void SetColors(Color32 mainColor, Color32 subColor)
     {
         mainSprite.color = mainColor;
 
@@ -16,4 +16,6 @@ public class Brick : MonoBehaviour
             subSprite.color = subColor;
         }
     }
+
+    public virtual void OnBrickDestroyed() {}
 }

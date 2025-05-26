@@ -12,7 +12,8 @@ public class BallController : MonoBehaviour
 
     private void Start()
     {
-        rb.velocity = new Vector2(0.5f, 1).normalized * speed;
+        //rb.velocity = new Vector2(0.5f, 1).normalized * speed;
+        rb.velocity = Vector2.up.normalized * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -36,7 +37,14 @@ public class BallController : MonoBehaviour
             if (collision.gameObject.CompareTag("Brick"))
             {
                 OnPointScored.Invoke();
-                Destroy(collision.gameObject);
+                var brick = collision.gameObject;
+
+                if(brick.GetComponent<Brick>() != null)
+                {
+                    brick.GetComponent<Brick>().OnBrickDestroyed();
+                }
+
+                Destroy(brick);
             }
         }
         else if(collision.gameObject.CompareTag("Paddle"))
