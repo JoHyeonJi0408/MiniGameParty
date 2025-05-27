@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
+    public ItemType ItemType;
     public SpriteRenderer Sprite;
     private float dropSpeed = 8;
 
@@ -19,7 +20,10 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(transform.gameObject);
+        if(collision.gameObject.CompareTag("Paddle"))
+        {
+            Destroy(transform.gameObject);
+        }
     }
 
     public void SetColor(Color32 color)
