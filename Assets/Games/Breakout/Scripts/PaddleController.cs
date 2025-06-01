@@ -11,6 +11,7 @@ public class PaddleController : MonoBehaviour
     private float defaultSpeed = 0.1f;
     private Vector3 defaultScale;
 
+    [HideInInspector] public bool CanMove = true;
     [HideInInspector] public UnityEvent OnHeartGained;
     [HideInInspector] public UnityEvent OnBallGained;
 
@@ -21,6 +22,11 @@ public class PaddleController : MonoBehaviour
 
     private void Update()
     {
+        if (!CanMove)
+        {
+            return;
+        }
+
         float currentX = transform.position.x;
         float newX = currentX;
 

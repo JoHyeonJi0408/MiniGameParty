@@ -24,6 +24,11 @@ public class ItemBrick : Brick
         DropItem();
     }
 
+    public GameObject GetItemObject()
+    {
+        return item;
+    }
+
     private void DropItem()
     {
         item.SetActive(true);

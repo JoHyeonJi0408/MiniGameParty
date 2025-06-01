@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Breakout
 {
@@ -17,7 +18,11 @@ namespace Breakout
         public PaddleController PaddleController;
 
         [Header("UI ¼³Á¤")]
-        public TextMeshProUGUI ScoreText;
+        public TextMeshProUGUI CurrentScoreText;
+        public TextMeshProUGUI TotalScoreText;
+        public GameObject GameOverUI;
+        public Button ButtonOK;
+        public Button ButtonRetry;
         public List<GameObject> Lifes;
 
         private int score;
@@ -36,6 +41,7 @@ namespace Breakout
             52f, 6f, 6f, 6f, 6f, 6f, 6f, 6f, 6f
         };
         private List<GameObject> activeBricks = new ();
+        private List<GameObject> brickItems = new ();
         private Dictionary<BrickType, GameObject> brickPrefabs = new();
         private Color32[] brickMainColors = { GameColors.Salmon04, GameColors.Yellow04, GameColors.Olive04, GameColors.SkyBlue04 };
         private Color32[] brickSubColors = { GameColors.Salmon08, GameColors.Yellow08, GameColors.Olive08, GameColors.SkyBlue08 };
@@ -56,6 +62,8 @@ namespace Breakout
             BaseBallController.OnBallOvered.AddListener(() => CheckGameOver());
             PaddleController.OnHeartGained.AddListener(() => UpdateLifeUI(++currentLife));
             PaddleController.OnBallGained.AddListener(() => AddBaseBall());
+            ButtonOK.onClick.AddListener(() => Debug.Log("OK"));
+            ButtonRetry.onClick.AddListener(() => Retry());
 
             activeBrickCount = rowMaxCount * columnMaxCount;
         }
@@ -81,7 +89,18 @@ namespace Breakout
 
         private void InitializeBricks(float startY)
         {
+            foreach(var brick in activeBricks)
+            {
+                Destroy(brick);
+            }
+
+            foreach(var item in brickItems)
+            {
+                Destroy(item);
+            }
+
             activeBricks.Clear();
+            brickItems.Clear();
             System.Random rand = new();
             int colorIndex = 0;
 
@@ -112,6 +131,11 @@ namespace Breakout
                     GameObject brick = Instantiate(brickPrefabs[type], new Vector3(x, y, 0), Quaternion.identity, BrickContainer);
                     brick.GetComponent<Brick>().SetColors(brickMainColors[colorIndex % brickMainColors.Length], brickSubColors[colorIndex % brickSubColors.Length]);
                     activeBricks.Add(brick);
+
+                    if(brick.GetComponent<ItemBrick>() != null)
+                    {
+                        brickItems.Add(brick.GetComponent<ItemBrick>().GetItemObject());
+                    }
                 }
 
                 colorIndex++;
@@ -183,7 +207,7 @@ namespace Breakout
         private void UpdateUI()
         {
             score += 50;
-            ScoreText.text = score.ToString();
+            CurrentScoreText.text = score.ToString();
 
             activeBrickCount--;
         }
@@ -219,13 +243,39 @@ namespace Breakout
 
                 if (currentLife < 0)
                 {
-                    Debug.Log("Game Over");
+                    GameOver();
                 }
                 else
                 {
                     AddBaseBall();
                 }
             }
+        }
+
+        private void GameOver()
+        {
+            GameOverUI.SetActive(true);
+            StopAllCoroutines();
+            PaddleController.CanMove = false;
+            TotalScoreText.text = score.ToString();
+        }
+
+        private void Retry()
+        {
+            GameOverUI.SetActive(false);
+
+            InitializeBricks(initialSpawnY);
+
+            PaddleController.CanMove = true;
+
+            activeBrickCount = rowMaxCount * columnMaxCount;
+            currentLife = 3;
+            currentBalls = 0;
+            score = 0;
+
+            CurrentScoreText.text = score.ToString();
+            UpdateLifeUI(currentLife);
+            AddBaseBall();
         }
     }
 }
