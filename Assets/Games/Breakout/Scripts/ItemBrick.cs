@@ -22,6 +22,7 @@ public class ItemBrick : Brick
     public override void OnBrickDestroyed() 
     {
         DropItem();
+        base.OnBrickDestroyed();
     }
 
     public GameObject GetItemObject()

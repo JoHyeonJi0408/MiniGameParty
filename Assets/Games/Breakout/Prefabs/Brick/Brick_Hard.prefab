@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1071702144146115523}
   - component: {fileID: 1071702144146115581}
   - component: {fileID: 1071702144146115522}
-  - component: {fileID: -1896822723001428744}
+  - component: {fileID: 2410116699536688936}
   m_Layer: 0
   m_Name: Brick_Hard
   m_TagString: Brick
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.6, y: 1.6}
   m_EdgeRadius: 0
---- !u!114 &-1896822723001428744
+--- !u!114 &2410116699536688936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,11 +122,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1071702144146115520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4d94018a5410f428797c9ded8711c5, type: 3}
+  m_Script: {fileID: 11500000, guid: bb1a4bdc74f16d344a2c006218536cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainSprite: {fileID: 1071702144146115581}
   subSprite: {fileID: 1464889433291333346}
+  isFirst: 1
 --- !u!1 &4427713275401907827
 GameObject:
   m_ObjectHideFlags: 0

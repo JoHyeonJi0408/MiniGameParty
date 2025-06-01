@@ -37,15 +37,18 @@ public class BallController : MonoBehaviour
 
             if (collision.gameObject.CompareTag("Brick"))
             {
-                OnPointScored.Invoke();
-                var brick = collision.gameObject;
+                var brickObject = collision.gameObject;
+                var brick = brickObject.GetComponent<Brick>();
 
-                if(brick.GetComponent<Brick>() != null)
+                if(brick != null)
                 {
-                    brick.GetComponent<Brick>().OnBrickDestroyed();
-                }
+                    brick.OnBrickDestroyed();
 
-                Destroy(brick);
+                    if (brick.CanPointed)
+                    {
+                        OnPointScored.Invoke();
+                    }
+                }
             }
         }
         else if(collision.gameObject.CompareTag("Paddle"))
