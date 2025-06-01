@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PaddleController : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Safetynet[] Safetynets;
-    private float currentSpeed = 0.2f;
-    private float defaultSpeed = 0.2f;
+    private float currentSpeed = 0.1f;
+    private float defaultSpeed = 0.1f;
     private Vector3 defaultScale;
+
+    [HideInInspector] public UnityEvent OnHeartGained;
+    [HideInInspector] public UnityEvent OnBallGained;
 
     private void Awake()
     {
@@ -36,6 +40,11 @@ public class PaddleController : MonoBehaviour
         transform.position = new Vector3(newX, transform.position.y, transform.position.z);
     }
 
+    public float GetPaddleXPosition()
+    {
+        return transform.position.x;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var Item = collision.gameObject.GetComponent<Item>();
@@ -45,11 +54,13 @@ public class PaddleController : MonoBehaviour
             switch (Item.ItemType)
             {
                 case ItemType.Ball:
+                    OnBallGained.Invoke();
                     break;
                 case ItemType.Bomb:
                     ApplySlowEffect(0.1f, 1);
                     break;
                 case ItemType.Heart:
+                    OnHeartGained.Invoke();
                     break;
                 case ItemType.Minus:
                     ApplyScaleEffect(0.5f, 1, 5);
@@ -78,7 +89,7 @@ public class PaddleController : MonoBehaviour
     }
     private void ApplyScaleEffect(float scaleMultiplier, float scaleDuration, float holdDuration)
     {
-        StopCoroutine("ScaleRoutine");
+        StopCoroutine(nameof(ScaleRoutine));
         StartCoroutine(ScaleRoutine(scaleMultiplier, scaleDuration, holdDuration));
     }
 

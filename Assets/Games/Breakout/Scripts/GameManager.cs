@@ -8,15 +8,21 @@ namespace Breakout
     public class GameManager : MonoBehaviour
     {
         [Header("게임오브젝트 초기 설정")]
+        public GameObject Ball;
         public GameObject Brick;
         public List<BrickEntry> Bricks;
         public Transform BrickContainer;
-        public BallController BallController;
+        public Transform BallContainer;
+        public BallController BaseBallController;
+        public PaddleController PaddleController;
 
         [Header("UI 설정")]
         public TextMeshProUGUI ScoreText;
+        public List<GameObject> Lifes;
 
         private int score;
+        private int currentLife = 3;
+        private int currentBalls = 1;
         private int rowMaxCount = 7;
         private int columnMaxCount = 4;
         private int maxSpecialBrickPerRow = 3;
@@ -46,7 +52,10 @@ namespace Breakout
 
             InitializeBricks(initialSpawnY);
 
-            BallController.OnPointScored.AddListener(() => UpdateUI());
+            BaseBallController.OnPointScored.AddListener(() => UpdateUI());
+            BaseBallController.OnBallOvered.AddListener(() => CheckGameOver());
+            PaddleController.OnHeartGained.AddListener(() => UpdateLifeUI(++currentLife));
+            PaddleController.OnBallGained.AddListener(() => AddBaseBall());
 
             activeBrickCount = rowMaxCount * columnMaxCount;
         }
@@ -59,6 +68,15 @@ namespace Breakout
 
                 activeBrickCount = rowMaxCount * columnMaxCount;
             }
+        }
+
+        private void AddBaseBall()
+        {
+            currentBalls++;
+            GameObject ball = Instantiate(Ball, new Vector3(PaddleController.GetPaddleXPosition(), -6.861f, 0), Quaternion.identity, BallContainer);
+            BallController ballController = ball.GetComponent<BallController>();
+            ballController.OnPointScored.AddListener(() => UpdateUI());
+            ballController.OnBallOvered.AddListener(() => CheckGameOver());
         }
 
         private void InitializeBricks(float startY)
@@ -168,6 +186,46 @@ namespace Breakout
             ScoreText.text = score.ToString();
 
             activeBrickCount--;
+        }
+
+        private void UpdateLifeUI(int life)
+        {
+            if(life > 3)
+            {
+                life = 3;
+            }
+
+            if(life < 0)
+            {
+                life = 0;
+            }
+
+            for (int i=0; i<life; i++)
+            {
+                Lifes[i].SetActive(true);
+            }
+
+            for(int i=life; i<Lifes.Capacity; i++)
+            {
+                Lifes[i].SetActive(false);
+            }
+        }
+
+        private void CheckGameOver()
+        {
+            if(--currentBalls <= 0)
+            {
+                UpdateLifeUI(--currentLife);
+
+                if (currentLife < 0)
+                {
+                    Debug.Log("Game Over");
+                }
+                else
+                {
+                    AddBaseBall();
+                }
+            }
         }
     }
 }

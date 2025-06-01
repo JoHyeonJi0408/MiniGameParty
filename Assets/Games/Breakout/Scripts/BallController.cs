@@ -9,6 +9,7 @@ public class BallController : MonoBehaviour
     public Rigidbody2D rb;
 
     [HideInInspector] public UnityEvent OnPointScored;
+    [HideInInspector] public UnityEvent OnBallOvered; 
 
     private void Start()
     {
@@ -55,6 +56,12 @@ public class BallController : MonoBehaviour
 
             float bounceAngle = Mathf.Lerp(1f, 0.7f, Mathf.Abs(relativeX));
             direction = new Vector2(relativeX, bounceAngle).normalized;
+        }
+        else if (collision.gameObject.CompareTag("Finish"))
+        {
+            OnBallOvered.Invoke();
+            direction = Vector2.zero;
+            Destroy(gameObject);
         }
 
         rb.velocity = direction * speed;
