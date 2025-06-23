@@ -14,8 +14,11 @@ namespace MazeEscape
         public GameObject floorPrefab;
         public GameObject exitPrefab;
         public GameObject playerPrefab;
+        public GameObject miniMapPrefab;
+        public GameObject compassPrefab;
 
         private int[,] maze;
+        private List<Vector2> itemSpawnPos = new();
 
         private readonly int[] dx = { 0, 0, -2, 2 };
         private readonly int[] dy = { -2, 2, 0, 0 };
@@ -26,6 +29,7 @@ namespace MazeEscape
             BuildMaze();
             SpawnPlayer();
             SpawnExit();
+            SpawnItems();
         }
 
         private void GenerateMaze()
@@ -76,6 +80,15 @@ namespace MazeEscape
                     else
                     {
                         Instantiate(floorPrefab, new Vector3(x, -0.45f, y), Quaternion.identity, transform);
+
+                        int wallCount = 0;
+
+                        if (maze[x + 1, y] == 1) wallCount++;
+                        if (maze[x - 1, y] == 1) wallCount++;
+                        if (maze[x, y + 1] == 1) wallCount++;
+                        if (maze[x, y - 1] == 1) wallCount++;
+
+                        if (wallCount >= 3) itemSpawnPos.Add(new Vector2(x, y));
                     }
                 }
             }
@@ -97,6 +110,16 @@ namespace MazeEscape
             }
 
             Instantiate(exitPrefab, new Vector3(ex, 0.1f, ey), Quaternion.identity);
+        }
+
+        private void SpawnItems()
+        {
+            for(int i=1; i<itemSpawnPos.Count-1; i++)
+            {
+                var pos = itemSpawnPos[i];
+
+                Instantiate(miniMapPrefab, new Vector3(pos.x, 0.1f, pos.y), Quaternion.identity);
+            }
         }
 
         private bool IsInMaze(int x, int y)
