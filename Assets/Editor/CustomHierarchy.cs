@@ -30,8 +30,12 @@ public class CustomHierarchy
                 continue;
             }
 
+            GUIStyle customToolbarStyle = new GUIStyle(EditorStyles.whiteBoldLabel);
+            customToolbarStyle.normal.textColor = Color.black;
+
             EditorGUI.DrawRect(headerRect, headerInfo.color);
-            EditorGUI.LabelField(headerRect, headerInfo.text, EditorStyles.whiteBoldLabel);
+            EditorGUI.LabelField(headerRect, headerInfo.text, customToolbarStyle);
+
             break;
         }
     }

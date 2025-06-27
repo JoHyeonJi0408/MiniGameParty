@@ -14,7 +14,7 @@ public class BallController : MonoBehaviour
     private void Start()
     {
         //rb.velocity = new Vector2(0.5f, 1).normalized * speed;
-        rb.velocity = Vector2.up.normalized * speed;
+        rb.linearVelocity = Vector2.up.normalized * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -67,6 +67,6 @@ public class BallController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        rb.velocity = direction * speed;
+        rb.linearVelocity = direction * speed;
     }
 }

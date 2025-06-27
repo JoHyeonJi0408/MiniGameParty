@@ -1,0 +1,11 @@
+{
+    "asset": "d1f7183bf1197c64d8c8be5ade18bcf8",
+    "fileName": "0197b017-16be-7e81-afdd-488e86d15dc2_Preview.png",
+    "prompt": "지도 모양의 3D 오브젝트",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 2004923209,
+    "w3CTraceId": "2a1ca8ecdbce20924d5df666194031e2",
+    "refinementMode": "Generation"
+}
