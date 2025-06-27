@@ -5,6 +5,11 @@ namespace MazeEscape
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
+        [Header("서비스 설정")]
+        public MiniMapService MiniMapService;
+
         [Header("미로 크기")]
         public int width = 21;
         public int height = 21;
@@ -14,14 +19,20 @@ namespace MazeEscape
         public GameObject floorPrefab;
         public GameObject exitPrefab;
         public GameObject playerPrefab;
-        public GameObject miniMapPrefab;
-        public GameObject compassPrefab;
+
+        [Header("아이템")]
+        public ItemData MiniMapData;
 
         private int[,] maze;
         private List<Vector2> itemSpawnPos = new();
 
         private readonly int[] dx = { 0, 0, -2, 2 };
         private readonly int[] dy = { -2, 2, 0, 0 };
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -118,7 +129,7 @@ namespace MazeEscape
             {
                 var pos = itemSpawnPos[i];
 
-                Instantiate(miniMapPrefab, new Vector3(pos.x, 0.1f, pos.y), Quaternion.identity);
+                Instantiate(MiniMapData.prefab, new Vector3(pos.x, 0.1f, pos.y), Quaternion.identity);
             }
         }
 
