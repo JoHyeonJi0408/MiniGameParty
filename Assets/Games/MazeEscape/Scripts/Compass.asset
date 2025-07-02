@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b12918e21a02f1142ac8d049276e7940, type: 3}
-  m_Name: MiniMap
+  m_Name: Compass
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: MiniMap
-  prefab: {fileID: 885568263799512263, guid: 112e1e0afcb1c494fabd488d61799390, type: 3}
-  effect: {fileID: 11400000, guid: 117f404cb4c1d7e44ad2bb5e13e5bce1, type: 2}
+  itemName: Compass
+  prefab: {fileID: 7686925625462667166, guid: 387b6bb30855d0f4997b383ff0ab4e50, type: 3}
+  effect: {fileID: 11400000, guid: 1b83a598278962149adef093a58a87cf, type: 2}

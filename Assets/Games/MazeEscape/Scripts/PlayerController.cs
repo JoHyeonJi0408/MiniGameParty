@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("수치 설정")]
-    public float moveSpeed = 5f;
-    public float mouseSensitivity = 2f;
+    public float moveSpeed = 10f;
+    public float mouseSensitivity = 1f;
     public float gravity = 9.8f;
     public float lookXLimit = 60f;
 

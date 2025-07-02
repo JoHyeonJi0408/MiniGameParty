@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace MazeEscape
 {
@@ -9,6 +10,7 @@ namespace MazeEscape
 
         [Header("서비스 설정")]
         public MiniMapService MiniMapService;
+        public CompassService CompassService;
 
         [Header("미로 크기")]
         public int width = 21;
@@ -22,6 +24,7 @@ namespace MazeEscape
 
         [Header("아이템")]
         public ItemData MiniMapData;
+        public ItemData CompassData;
 
         private int[,] maze;
         private List<Vector2> itemSpawnPos = new();
@@ -107,7 +110,11 @@ namespace MazeEscape
 
         private void SpawnPlayer()
         {
-            Instantiate(playerPrefab, new Vector3(1, 0.1f, 1), Quaternion.identity);
+            var player = Instantiate(playerPrefab, new Vector3(1, 0.1f, 1), Quaternion.identity);
+            var arrow = player.transform.GetChild(0).gameObject;
+
+            CompassService.compassArrow = arrow;
+            CompassService.player = player.transform;
         }
 
         private void SpawnExit()
@@ -121,15 +128,33 @@ namespace MazeEscape
             }
 
             Instantiate(exitPrefab, new Vector3(ex, 0.1f, ey), Quaternion.identity);
+
+            CompassService.exit = new Vector3(ex, 0.1f, ey);
         }
 
         private void SpawnItems()
         {
-            for(int i=1; i<itemSpawnPos.Count-1; i++)
-            {
-                var pos = itemSpawnPos[i];
+            int count = itemSpawnPos.Count;
+            if (count <= 2) return;
 
-                Instantiate(MiniMapData.prefab, new Vector3(pos.x, 0.1f, pos.y), Quaternion.identity);
+            List<Vector2> middle = itemSpawnPos.GetRange(1, count - 2)
+                                                  .OrderBy(_ => Random.value)
+                                                  .ToList();
+
+            int half = middle.Count / 2;
+
+            for (int i = 0; i < middle.Count; i++)
+            {
+                var pos = middle[i];
+
+                if (i < half)
+                {
+                    Instantiate(MiniMapData.prefab, new(pos.x, -0.3f, pos.y), Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(CompassData.prefab, new(pos.x, -0.3f, pos.y), Quaternion.identity);
+                }
             }
         }
 

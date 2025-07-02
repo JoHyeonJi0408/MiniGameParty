@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 799151399}
   - component: {fileID: 799151400}
   - component: {fileID: 799151401}
+  - component: {fileID: 799151402}
   m_Layer: 0
   m_Name: GAMEMANAGER
   m_TagString: Untagged
@@ -327,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MiniMapService: {fileID: 799151401}
+  CompassService: {fileID: 799151402}
   width: 21
   height: 21
   wallPrefab: {fileID: 5115148728780394514, guid: 962bc95fa620fd646af47ffed389ab42,
@@ -338,6 +340,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 9093348078726284719, guid: 46bcc0c5289d1984d8a60305d2063e87,
     type: 3}
   MiniMapData: {fileID: 11400000, guid: ff77d52c3db8d0c418dbd82de0f3050c, type: 2}
+  CompassData: {fileID: 11400000, guid: bbc018ecd5f588349bde1c334aea8e4f, type: 2}
 --- !u!114 &799151401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +355,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MiniMapService
   miniMapUI: {fileID: 1984513420}
   miniMapCamera: {fileID: 1952719010}
+--- !u!114 &799151402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799151398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39654c8ff8b79884a8125b8018f8aacb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompassService
+  compassArrow: {fileID: 0}
+  player: {fileID: 0}
+  exit: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
