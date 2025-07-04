@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class CompassService : MonoBehaviour
 {
-    public GameObject compassArrow;
-    public Transform player;
-    public Vector3 exit;
+    [HideInInspector] public GameObject compassArrow;
+    [HideInInspector] public Transform player;
+    [HideInInspector] public Vector3 exit;
 
     public void Show(float duration)
     {

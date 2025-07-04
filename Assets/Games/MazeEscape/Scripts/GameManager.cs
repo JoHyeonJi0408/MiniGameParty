@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MazeEscape
 {
@@ -22,11 +24,21 @@ namespace MazeEscape
         public GameObject exitPrefab;
         public GameObject playerPrefab;
 
-        [Header("아이템")]
+        [Header("아이템 설정")]
         public ItemData MiniMapData;
         public ItemData CompassData;
 
+        [Header("UI 설정")]
+        public GameObject GameOverUI;
+        public TextMeshProUGUI MinuteText;
+        public TextMeshProUGUI SecondText;
+        public TextMeshProUGUI TotalTimeText;
+        public Button ButtonOK;
+        public Button ButtonRetry;
+
         private int[,] maze;
+        private float timer = 0f;
+        private bool isEnd = false;
         private List<Vector2> itemSpawnPos = new();
 
         private readonly int[] dx = { 0, 0, -2, 2 };
@@ -39,11 +51,35 @@ namespace MazeEscape
 
         private void Start()
         {
+            GameStart();
+
+            ButtonOK.onClick.AddListener(() => Debug.Log("OK"));
+            ButtonRetry.onClick.AddListener(() => Debug.Log("Retry"));
+        }
+
+        private void GameStart()
+        {
             GenerateMaze();
             BuildMaze();
             SpawnPlayer();
             SpawnExit();
             SpawnItems();
+        }
+
+        private void Update()
+        {
+            if (isEnd)
+            {
+                return;
+            }
+
+            timer += Time.deltaTime;
+
+            int minutes = Mathf.FloorToInt(timer / 60f);
+            float seconds = timer % 60f;
+
+            MinuteText.text = $"{minutes:00}";
+            SecondText.text = $"{seconds:00.00}";
         }
 
         private void GenerateMaze()
@@ -127,9 +163,10 @@ namespace MazeEscape
                 maze[ex, ey] = 0;
             }
 
-            Instantiate(exitPrefab, new Vector3(ex, 0.1f, ey), Quaternion.identity);
+            var exitObject = Instantiate(exitPrefab, new Vector3(ex, 0.1f, ey), Quaternion.identity);
 
             CompassService.exit = new Vector3(ex, 0.1f, ey);
+            exitObject.GetComponent<ExitArrive>().OnExit.AddListener(() => GameOver());
         }
 
         private void SpawnItems()
@@ -172,6 +209,17 @@ namespace MazeEscape
                 list[i] = list[rand];
                 list[rand] = temp;
             }
+        }
+
+        private void GameOver()
+        {
+            isEnd = true;
+
+            GameOverUI.SetActive(true);
+
+            int minutes = Mathf.FloorToInt(timer / 60f);
+            float seconds = timer % 60f;
+            TotalTimeText.text = $"{minutes:00}:{seconds:00.00}";
         }
     }
 }
