@@ -335,7 +335,7 @@ MonoBehaviour:
     type: 3}
   floorPrefab: {fileID: 4286225991381163900, guid: edfdbb45553f3c4428effd96d736fb0a,
     type: 3}
-  exitPrefab: {fileID: 5115148728780394514, guid: a95884e2aac57824aa4e8eecfdc4fea7,
+  exitPrefab: {fileID: 4784275914338401115, guid: 37cd0bb38f72ab6468274b7a44032444,
     type: 3}
   playerPrefab: {fileID: 9093348078726284719, guid: 46bcc0c5289d1984d8a60305d2063e87,
     type: 3}

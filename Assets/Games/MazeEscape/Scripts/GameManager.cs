@@ -163,9 +163,9 @@ namespace MazeEscape
                 maze[ex, ey] = 0;
             }
 
-            var exitObject = Instantiate(exitPrefab, new Vector3(ex, 0.1f, ey), Quaternion.identity);
+            var exitObject = Instantiate(exitPrefab, new Vector3(ex, 0, ey), Quaternion.identity);
 
-            CompassService.exit = new Vector3(ex, 0.1f, ey);
+            CompassService.exit = new Vector3(ex, 0, ey);
             exitObject.GetComponent<ExitArrive>().OnExit.AddListener(() => GameOver());
         }
 
