@@ -23,6 +23,7 @@ namespace MazeEscape
         public GameObject floorPrefab;
         public GameObject exitPrefab;
         public GameObject playerPrefab;
+        public GameObject ObstacleAIPrefab;
 
         [Header("아이템 설정")]
         public ItemData MiniMapData;
@@ -40,6 +41,7 @@ namespace MazeEscape
         private float timer = 0f;
         private bool isEnd = false;
         private List<Vector2> itemSpawnPos = new();
+        private Transform player;
 
         private readonly int[] dx = { 0, 0, -2, 2 };
         private readonly int[] dy = { -2, 2, 0, 0 };
@@ -149,6 +151,7 @@ namespace MazeEscape
             var player = Instantiate(playerPrefab, new Vector3(1, 0.1f, 1), Quaternion.identity);
             var arrow = player.transform.GetChild(0).gameObject;
 
+            this.player = player.transform;
             CompassService.compassArrow = arrow;
             CompassService.player = player.transform;
         }
@@ -183,15 +186,19 @@ namespace MazeEscape
             for (int i = 0; i < middle.Count; i++)
             {
                 var pos = middle[i];
+                var obstacleAI = Instantiate(ObstacleAIPrefab, new(pos.x, 0.1f, pos.y), Quaternion.identity);
+                obstacleAI.GetComponent<ObstacleAI>().player = player;
 
+                /*
                 if (i < half)
                 {
                     Instantiate(MiniMapData.prefab, new(pos.x, -0.3f, pos.y), Quaternion.identity);
+                    
                 }
                 else
                 {
                     Instantiate(CompassData.prefab, new(pos.x, -0.3f, pos.y), Quaternion.identity);
-                }
+                }*/
             }
         }
 

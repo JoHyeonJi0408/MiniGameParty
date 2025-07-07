@@ -339,6 +339,8 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 9093348078726284719, guid: 46bcc0c5289d1984d8a60305d2063e87,
     type: 3}
+  ObstacleAIPrefab: {fileID: 5951869961083951499, guid: 7582969ea4f9a9e469d4511714ba5a3a,
+    type: 3}
   MiniMapData: {fileID: 11400000, guid: ff77d52c3db8d0c418dbd82de0f3050c, type: 2}
   CompassData: {fileID: 11400000, guid: bbc018ecd5f588349bde1c334aea8e4f, type: 2}
   GameOverUI: {fileID: 1598123132542969989}
